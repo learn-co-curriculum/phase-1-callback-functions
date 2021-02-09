@@ -22,37 +22,37 @@ Or I could get a bit smarter about it. I could prepare once for each group of re
 
 ``` javascript
 function clean(item) {
-  console.log(`I just cleaned a ${item}`)
+  console.log(`I just cleaned a ${item}`);
 }
 
-var nails = ["rusty nail", "rusty nail", "bent nail", "clean nail"]
+const nails = ["rusty nail", "rusty nail", "bent nail", "clean nail"];
 
-for (var i = 0; i < nails.length; i++) {
-  clean(nails[i])
+for (let i = 0; i < nails.length; i++) {
+  clean(nails[i]);
 }
 
-var planks = ["splintered plank", "straight plank", "bent plank"]
+const planks = ["splintered plank", "straight plank", "bent plank"];
 
-for (var i = 0; i < planks.length; i++) {
-  clean(planks[i])
+for (let i = 0; i < planks.length; i++) {
+  clean(planks[i]);
 }
 
-console.log('done!')
+console.log('done!');
 ```
 
 And so on and so forth. Well now, this wasn't so bad, but I noticed that I was preparing to clean everything — and cleaning everything, really — in the same way. What if I could just group all of the things that I needed to clean, and prep for the cleaning once?
 
 ``` javascript
 function groupAndClean(items, cleaningMethod, done) {
-  for (var i = 0; i < items.length; i++) {
-    cleaningMethod(items[i])
+  for (let i = 0; i < items.length; i++) {
+    cleaningMethod(items[i]);
   }
 
-  done()
+  done();
 }
 
 groupAndClean(nails.concat(planks), clean, function() {
-  console.log('Whew, that was a lot of work!')
+  console.log('Whew, that was a lot of work!');
 })
 ```
 
@@ -68,7 +68,7 @@ For example, let's say we have a function that lets us do anything we want to th
 
 ``` javascript
 function doTo5(anything) {
-  return anything(5)
+  return anything(5);
 }
 ```
 
@@ -76,20 +76,20 @@ Well, let's try it out. Can we divide with it?
 
 ``` javascript
 function divide10ByN(n) {
-  return 10 / n
+  return 10 / n;
 }
 
-doTo5(divide10ByN) // 2
+doTo5(divide10ByN); // 2
 ```
 
 Cool, cool. Can we append it to a string?
 
 ``` javascript
 function appendToHello(s) {
-  return `Hello, ${s}!`
+  return `Hello, ${s}!`;
 }
 
-doTo5(appendToHello) // 'Hello, 5!'
+doTo5(appendToHello); // 'Hello, 5!'
 ```
 
 Some things to note:
@@ -110,7 +110,7 @@ function somethingExpensive(callback) {
 
   // (supposing that we have defined `data`
   // along the way)
-  callback(data)
+  callback(data);
 }
 ```
 
@@ -121,5 +121,3 @@ function somethingExpensive(callback) {
 
 [JIS: Callbacks]: http://javascriptissexy.com/understand-javascript-callback-functions-and-use-them/
 [SO: Callbacks]: http://stackoverflow.com/questions/9596276/how-to-explain-callbacks-in-plain-english-how-are-they-different-from-calling-o
-
-<p class='util--hide'>View <a href='https://learn.co/lessons/javascript-callbacks'>Javascript Callbacks</a> on Learn.co and start learning to code for free.</p>
