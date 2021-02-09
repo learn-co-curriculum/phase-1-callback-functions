@@ -16,9 +16,13 @@ It was not a fancy boat or a particularly nice boat, but it was my boat.
 
 Boats, as you know, have many moving parts. And these parts need to be cleaned.
 
-Now, I could have cleaned every part separately, _iterating_ through the piles of barnacle-encrusted tools one by one, preparing to clean each individual piece with a bit of a care.
+Now, I could have cleaned every part separately, _iterating_ through the piles
+of barnacle-encrusted tools one by one, preparing to clean each individual piece
+with a bit of a care.
 
-Or I could get a bit smarter about it. I could prepare once for each group of related items, so that I wouldn't have to prepare to clean each item individually. In code, that might look like:
+Or I could get a bit smarter about it. I could prepare once for each group of
+related items, so that I wouldn't have to prepare to clean each item
+individually. In code, that might look like:
 
 ``` javascript
 function clean(item) {
@@ -40,7 +44,10 @@ for (let i = 0; i < planks.length; i++) {
 console.log('done!');
 ```
 
-And so on and so forth. Well now, this wasn't so bad, but I noticed that I was preparing to clean everything — and cleaning everything, really — in the same way. What if I could just group all of the things that I needed to clean, and prep for the cleaning once?
+And so on and so forth. Well now, this wasn't so bad, but I noticed that I was
+preparing to clean everything — and cleaning everything, really — in the same
+way. What if I could just group all of the things that I needed to clean, and
+prep for the cleaning once?
 
 ``` javascript
 function groupAndClean(items, cleaningMethod, done) {
@@ -56,15 +63,19 @@ groupAndClean(nails.concat(planks), clean, function() {
 })
 ```
 
-So went the days of my youth, when I learned to pass **functions as arguments** to other functions.
+So went the days of my youth, when I learned to pass **functions as arguments**
+to other functions.
 
 And my boat was cleaner for it.
 
 ## Functions as arguments
 
-In JavaScript, we have the ability to pass functions as arguments. This makes it really easy to abstract functionality out of our programs, making the programs easier to reason about by breaking them into smaller chunks.
+In JavaScript, we have the ability to pass functions as arguments. This makes it
+really easy to abstract functionality out of our programs, making the programs
+easier to reason about by breaking them into smaller chunks.
 
-For example, let's say we have a function that lets us do anything we want to the number 5 (follow along in the browser's console!):
+For example, let's say we have a function that lets us do anything we want to
+the number 5 (follow along in the browser's console!):
 
 ``` javascript
 function doTo5(anything) {
@@ -94,13 +105,22 @@ doTo5(appendToHello); // 'Hello, 5!'
 
 Some things to note:
 
-- neither `divide10ByN()` nor `appendToHello()` knows that it's going to receive `5` specifically — these functions only know that they're going to receive _an argument_. They're very generic.
+- neither `divide10ByN()` nor `appendToHello()` knows that it's going to receive
+  `5` specifically — these functions only know that they're going to receive _an
+  argument_. They're very generic.
 
-- We do not _call_ `divide10ByN` or `appendToHello` when we pass them as functions to `doTo5()` — that is, we pass just their name without any parentheses after it. That's because the calling actually happens _inside_ `doTo5()`, when `doTo5()` _calls back_ to the "outside world." Because of this process of _calling back_, we often call functions that we pass to other functions **callbacks**.
+- We do not _call_ `divide10ByN` or `appendToHello` when we pass them as
+  functions to `doTo5()` — that is, we pass just their name without any
+  parentheses after it. That's because the calling actually happens _inside_
+  `doTo5()`, when `doTo5()` _calls back_ to the "outside world." Because of this
+  process of _calling back_, we often call functions that we pass to other
+  functions **callbacks**.
 
 ## Other uses for callbacks
 
-Callbacks can also be useful for when we finish an expensive operation and want to return to a previous function's context (similarly to how `done()` was used in the boat example).
+Callbacks can also be useful for when we finish an expensive operation and want
+to return to a previous function's context (similarly to how `done()` was used
+in the boat example).
 
 ``` javascript
 function somethingExpensive(callback) {
