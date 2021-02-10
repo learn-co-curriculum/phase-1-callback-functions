@@ -71,7 +71,7 @@ groupAndClean(nails.concat(planks), clean, function() {
 
 The `groupAndClean()` function has three parameters: the first references an
 array containing the items to be cleaned and the other two hold **functions**.
-When we call the function, we pass the items to be cleaned (combined into a
+When we call `groupAndClean()`, we pass the items to be cleaned (combined into a
 single array using JavaScript's [`Array` `.concat` method][concat]), a
 _reference_ to the `clean()` function we defined earlier, and an _inline_
 function containing the code we want to execute after all the items have been
@@ -155,3 +155,4 @@ function we need.
 
 [JIS: Callbacks]: http://javascriptissexy.com/understand-javascript-callback-functions-and-use-them/
 [SO: Callbacks]: http://stackoverflow.com/questions/9596276/how-to-explain-callbacks-in-plain-english-how-are-they-different-from-calling-o
+[concat]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat
