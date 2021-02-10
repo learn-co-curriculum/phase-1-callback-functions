@@ -2,8 +2,8 @@
 
 ## Learning Goals
 
-1. Define callback functions
-2. Practice using callback functions
+- Define callback functions
+- Practice using callback functions
 
 ## Introduction
 
