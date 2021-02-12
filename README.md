@@ -70,12 +70,14 @@ groupAndClean(nails.concat(planks), clean, function() {
 ```
 
 The `groupAndClean()` function has three parameters: the first references an
-array containing the items to be cleaned and the other two hold **functions**.
+array containing the items to be cleaned, and the other two hold **functions**.
 When we call `groupAndClean()`, we pass the items to be cleaned (combined into a
 single array using JavaScript's [`Array` `.concat` method][concat]), a
 _reference_ to the `clean()` function we defined earlier, and an _inline_
 function containing the code we want to execute after all the items have been
-cleaned.
+cleaned. Note that, even though that last function is _anonymous_, because we
+are passing it to `groupAndClean()` as an argument, we can refer to it inside
+the function using the parameter name, `done`.
 
 Functions that are passed as arguments to other functions are commonly referred
 to as `callback functions`. That's because they're _called back_ within the body
