@@ -5,8 +5,6 @@
 - Understand that we can pass functions as arguments in JavaScript
 - Define callback functions
 
-## Introduction
-
 ## Passing Functions as Arguments
 
 We know we can pass numbers, strings, objects, and arrays into a function as
