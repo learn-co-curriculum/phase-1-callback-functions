@@ -2,151 +2,150 @@
 
 ## Learning Goals
 
-1. Define callback functions
-2. Practice using callback functions
+- Understand that we can pass functions as arguments in JavaScript
+- Define callback functions
 
 ## Introduction
 
-When I was your age, I had a boat.
+## Passing Functions as Arguments
 
-![Boat](https://user-images.githubusercontent.com/17556281/28758193-16bc31b8-7562-11e7-8539-cc39b31def8f.jpeg)
+We know we can pass numbers, strings, objects, and arrays into a function as
+arguments, but did you know we can also **pass functions into other functions**?
+We'll go into this in greater depth in an upcoming lesson, but it's important to
+start thinking about this concept now: in JavaScript, **functions are objects**.
+Specifically, they are objects with a special, hidden code property that can be
+invoked.
 
-It was not a fancy boat or a particularly nice boat, but it was my boat.
+This is how we pass an object into a function:
 
-Boats, as you know, have many moving parts. And these parts need to be cleaned.
-
-Now, I could have cleaned every part separately, _iterating_ through the piles
-of barnacle-encrusted tools one by one, preparing to clean each individual piece
-with a bit of a care.
-
-Or I could get a bit smarter about it. I could prepare once for each group of
-related items, so that I wouldn't have to prepare to clean each item
-individually. In code, that might look like:
-
-``` javascript
-function clean(item) {
-  console.log(`I just cleaned a ${item}`);
+```js
+function iReturnThings (thing) {
+  return thing;
 }
 
-const nails = ["rusty nail", "rusty nail", "bent nail", "clean nail"];
-
-for (let i = 0; i < nails.length; i++) {
-  clean(nails[i]);
-}
-
-const planks = ["splintered plank", "straight plank", "bent plank"];
-
-for (let i = 0; i < planks.length; i++) {
-  clean(planks[i]);
-}
-
-console.log('done!');
+iReturnThings({ firstName: 'Brendan', lastName: 'Eich' });
+// => {firstName: "Brendan", lastName: "Eich"}
 ```
 
-And so on and so forth. Well now, this wasn't so bad, but I noticed that I was
-preparing to clean everything — and cleaning everything, really — in the same
-way. What if I could just group all of the things that I needed to clean, and
-prep for the cleaning once?
+And this is how we pass a function into a function:
+
+```js
+iReturnThings(function () { return 4 + 5; });
+// => ƒ () { return 4 + 5; }
+```
+
+Notice that a representation of the passed-in function was returned, but **it
+was not invoked**. The `iReturnThings()` function accepted the passed-in
+function as its lone argument, `thing`. As with all arguments, `thing` was then
+available everywhere inside `iReturnThings()` as a local variable. When we
+passed a function into `iReturnThings()`, the `thing` variable contained that
+function. Currently, all `iReturnThings()` does is return whatever value is
+stored inside `thing`. However, if we know `thing` contains a function, we can
+do a piece of awesome, function-y magic to it: **we can invoke it** and return
+the function's result:
+
+```js
+function iInvokeThings (thing) {
+  return thing();
+}
+
+iInvokeThings(function () { return 4 + 5; });
+// => 9
+
+iInvokeThings(function () { return 'Hello, ' + 'world!'; });
+// => "Hello, world!"
+```
+
+We pass in a function as the lone argument, store it inside the `thing`
+variable, and then use the invocation operator (a pair of parentheses) to invoke
+the stored function: `thing()`.
+
+***NOTE***: As we dive deeper and deeper into functional programming in
+JavaScript, it bears repeating: this is **very** complicated material! This is
+likely the first time you're encountering any of this stuff so, if you're
+struggling with the new concepts, don't sweat it! Set aside some extra time to
+re-read and practice, and make sure you're coding along with every example we
+cover in the lessons.
 
 ## Define Callback Functions
 
-In JavaScript, we have the ability to pass functions as arguments. This makes it
-really easy to abstract functionality out of our programs, making the programs
-easier to reason about by breaking them into smaller chunks. Take a look at the
-following refactor of the code for our cleaning routine:
+If you've done any outside reading on JavaScript, you've probably come across
+the name of the pattern we just introduced: _callback functions_. When we pass a
+function into another function wherein it might be invoked, we refer to the
+passed function as a _callback_. The term derives from the fact that the
+function isn't invoked immediately — instead it's _called back_, or invoked at a
+later point.
 
-``` javascript
-function groupAndClean(items, cleaningMethod, done) {
-  for (let i = 0; i < items.length; i++) {
-    cleaningMethod(items[i]);
-  }
+You may have noticed, but all of our callback functions so far have been
+_anonymous functions_; that is, we haven't assigned them an identifier. You're
+welcome to name your callback functions if you'd like, but generally it just
+clutters things up if you only use the callback function in one place. And,
+anyway, we already have a way to refer to them: by the name of the parameter
+into which they're passed! For example:
 
-  done();
+```js
+function main (cb) {
+  console.log(cb());
 }
 
-groupAndClean(nails.concat(planks), clean, function() {
-  console.log('Whew, that was a lot of work!');
-})
+main(function () { return "After I get passed to the main() function as the only argument, I'm stored in the local 'cb' variable!"});
+// LOG: After I get passed to the main() function as the only argument, I'm stored in the local 'cb' variable!
 ```
 
-The `groupAndClean()` function has three parameters: the first references an
-array containing the items to be cleaned and the other two hold **functions**.
-When we call the function, we pass the items to be cleaned (combined into a
-single array using JavaScript's [`Array` `.concat` method][concat]), a
-_reference_ to the `clean()` function we defined earlier, and an _inline_
-function containing the code we want to execute after all the items have been
-cleaned.
+1. We passed an anonymous function, `function () { return "After I get passed...
+   }`, as the lone argument to our invocation of `main()`.
+2. `main()` stored the passed-in function in the local `cb` variable and then
+   invoked the callback function.
+3. The invoked callback returned its long string, which was `console.log()`-ed
+   out in `main()`.
 
-Functions that are passed as arguments to other functions are commonly referred
-to as `callback functions`. That's because they're _called back_ within the body
-of the function they're passed to. Callbacks are frequently used for
-asynchronous operations, like requesting a JSON file from a server, or in the
-case of Node.js, accessing the file system, a database, etc.
+We know that the parameters we define for our outer function are available
+anywhere inside the function. As a result, we can pass them as arguments to the
+callback function. For example:
 
-## Practice Using Callback Functions
-
-Let's look at another example. Say we have a function `doTo5()` that lets us
-do anything we want to the number 5 (follow along in the browser's console!):
-
-``` javascript
-function doTo5(anythingFunction) {
-  return anythingFunction(5);
-}
-```
-
-Well, let's try it out. Can we divide with it?
-
-``` javascript
-function divide10ByN(n) {
-  return 10 / n;
+```js
+function greet (name, cb) {
+  return cb(name);
 }
 
-doTo5(divide10ByN); //=> 2
-```
+greet('Ada Lovelace', function (name) { return 'Hello there, ' + name; });
+// => "Hello there, Ada Lovelace"
 
-Cool, cool. Can we append it to a string?
-
-``` javascript
-function appendToHello(s) {
-  return `Hello, ${s}!`;
+function doMath (num1, num2, cb) {
+  return cb(num1, num2);
 }
 
-doTo5(appendToHello); //=> 'Hello, 5!'
+doMath(42, 8, function (num1, num2) { return num1 * num2; });
+// => 336
 ```
 
-Some things to note:
-
-- neither `divide10ByN()` nor `appendToHello()` knows that it's going to receive
-  `5` specifically — these functions only know that they're going to receive _an
-  argument_. They're very generic.
-
-- We do not _call_ `divide10ByN` or `appendToHello` when we pass them as
-  functions to `doTo5()`. Instead we are passing them by _reference_ — that is,
-  we pass just their name without any parentheses after it. That's because the
-  calling actually happens _inside_ `doTo5()`, when `doTo5()` _calls back_ to
-  the "outside world."
-
-### A Final Example
-
-Say we have a very expensive operation we need to execute. We can use callbacks
-to help us encapsulate that operation into its own function by setting it up to
-take a callback function as an argument. That function gets called after the
-operation is completed (similarly to how `done()` was used in the boat example):
+In the above examples, what the `greet()` and `doMath()` functions are doing is
+pretty trivial: they're simply returning the result of calling the callback
+function. But let's consider another example. Imagine for a moment that we have
+a very expensive operation we need to execute, and that we need to do different
+things with the data it returns at different points in our program. We can use a
+callback to help us encapsulate that operation into its own function:
 
 ``` javascript
-function somethingExpensive(callback) {
+function somethingExpensive(cb) {
   // do something crazy,
   // like fetching a bajillion websites
   // then pass their data to callback:
-  callback(data);
+  cb(data);
 }
 ```
 
-You can imagine that we might need to do different things with the data in
-different parts of our program. This approach allows us to separate execution of
-the expensive operation from the functions that use the data it returns: once
-the operation is complete, we simply pass the data as an argument to whichever
-function we need.
+This approach allows us to separate execution of the expensive operation from
+the functions that use the data it returns. We do this by passing whichever
+function we currently need to `somethingExpensive()` as a callback. Once the
+expensive operation is finished, we simply call `cb()`, passing the data along
+as an argument.
+
+## Conclusion
+
+In this lesson, we learned about JavaScript callback functions. If the topic
+feels a little abstract at this point, don't worry! We will learn a lot more about
+callback functions and how they can be used in upcoming lessons.
 
 ## Resources
 
