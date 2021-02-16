@@ -2,8 +2,13 @@
 
 ## Learning Goals
 
+<<<<<<< HEAD
 - Understand that we can pass functions as arguments in JavaScript
 - Define callback functions
+=======
+- Define callback functions
+- Practice using callback functions
+>>>>>>> d6877c44dba2d2a9b6119756c6b01319dc5bb483
 
 ## Introduction
 
@@ -154,3 +159,4 @@ callback functions and how they can be used in upcoming lessons.
 
 [JIS: Callbacks]: http://javascriptissexy.com/understand-javascript-callback-functions-and-use-them/
 [SO: Callbacks]: http://stackoverflow.com/questions/9596276/how-to-explain-callbacks-in-plain-english-how-are-they-different-from-calling-o
+[concat]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat
