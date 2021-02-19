@@ -76,7 +76,7 @@ later point.
 
 You may have noticed, but all of our callback functions so far have been
 _anonymous functions_; that is, we haven't assigned them an identifier. You're
-welcome to name your callback functions if you'd like, but generally it just
+welcome to name your callback functions if you'd like, but generally, it just
 clutters things up if you only use the callback function in one place. And,
 anyway, we already have a way to refer to them: by the name of the parameter
 into which they're passed! For example:
@@ -128,12 +128,12 @@ callback to help us encapsulate that operation into its own function:
 function somethingExpensive(cb) {
   // do something crazy,
   // like fetching a bajillion websites
-  // then pass their data to callback:
+  // then pass their data to the callback:
   cb(data);
 }
 ```
 
-This approach allows us to separate execution of the expensive operation from
+This approach allows us to separate the execution of the expensive operation from
 the functions that use the data it returns. We do this by passing whichever
 function we currently need to `somethingExpensive()` as a callback. Once the
 expensive operation is finished, we simply call `cb()`, passing the data along
