@@ -72,7 +72,9 @@ the name of the pattern we just introduced: _callback functions_. When we pass a
 function into another function wherein it might be invoked, we refer to the
 passed function as a _callback_. The term derives from the fact that the
 function isn't invoked immediately — instead it's _called back_, or invoked at a
-later point.
+later point. (As an example, callback functions are commonly used to respond to
+user actions; we may define a callback to execute the appropriate code *when*
+the user clicks an element on the page.)
 
 You may have noticed, but all of our callback functions so far have been
 _anonymous functions_; that is, we haven't assigned them an identifier. You're
