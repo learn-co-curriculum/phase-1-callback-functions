@@ -149,9 +149,9 @@ callback functions and how they can be used in upcoming lessons.
 
 ## Resources
 
-- [JavaScript Is Sexy: Callbacks][JIS: Callbacks]
+- [Programiz: JavaScript Callback Function][JIS: Callbacks]
 - [StackOverflow: Explain Callbacks in Plain English][SO: Callbacks]
 
-[JIS: Callbacks]: http://javascriptissexy.com/understand-javascript-callback-functions-and-use-them/
+[JIS: Callbacks]: https://www.programiz.com/javascript/callback
 [SO: Callbacks]: http://stackoverflow.com/questions/9596276/how-to-explain-callbacks-in-plain-english-how-are-they-different-from-calling-o
 [concat]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat
