@@ -1,157 +1,232 @@
-# Callback Functions
+# Higher-Order Functions and Callbacks
 
 ## Learning Goals
 
-- Understand that we can pass functions as arguments in JavaScript
-- Define callback functions
+- One
+- Two
+- Three
 
-## Passing Functions as Arguments
+## Introduction
 
-We know we can pass numbers, strings, objects, and arrays into a function as
-arguments, but did you know we can also **pass functions into other functions**?
-We'll go into this in greater depth in an upcoming lesson, but it's important to
-start thinking about this concept now: in JavaScript, **functions are objects**.
-Specifically, they are objects with a special, hidden code property that can be
-invoked.
+We've learned that functions in JavaScript are considered first-class, which
+opens up the ways we can utilize them. We can assign them as values to a
+variable, pass them as arguments to another function, and return them from
+another function. These abilities allow some functions to be considered of
+higher-order.
 
-This is how we pass an object into a function:
+In this lesson we will discuss what higher-order functions are and dive deeper
+into the intricacies they present.
 
-```js
-function iReturnThings (thing) {
-  return thing;
-}
+## Higher-Order Functions
 
-iReturnThings({ firstName: 'Brendan', lastName: 'Eich' });
-// => {firstName: "Brendan", lastName: "Eich"}
-```
+In learning about what JavaScript functions can do thanks to being first-class,
+we've already seen examples of some higher-order functions. **A function is
+considered higher-order if it either accepts functions as an argument, or
+returns one (or both!).**
 
-And this is how we pass a function into a function:
-
-```js
-iReturnThings(function () { return 4 + 5; });
-// => ƒ () { return 4 + 5; }
-```
-
-Notice that a representation of the passed-in function was returned, but **it
-was not invoked**. The `iReturnThings()` function accepted the passed-in
-function as its lone argument, `thing`. As with all arguments, `thing` was then
-available everywhere inside `iReturnThings()` as a local variable. When we
-passed a function into `iReturnThings()`, the `thing` variable contained that
-function. Currently, all `iReturnThings()` does is return whatever value is
-stored inside `thing`. However, if we know `thing` contains a function, we can
-do a piece of awesome, function-y magic to it: **we can invoke it** and return
-the function's result:
+In this example we've seen previously:
 
 ```js
-function iInvokeThings (thing) {
-  return thing();
+function cashier(sayGreeting) {
+  sayGreeting();
 }
-
-iInvokeThings(function () { return 4 + 5; });
-// => 9
-
-iInvokeThings(function () { return 'Hello, ' + 'world!'; });
-// => "Hello, world!"
 ```
 
-We pass in a function as the lone argument, store it inside the `thing`
-variable, and then use the invocation operator (a pair of parentheses) to invoke
-the stored function: `thing()`.
+`cashier()` is a higher-order function because it _accepts a function as an
+argument_.
 
-***NOTE***: As we dive deeper and deeper into functional programming in
-JavaScript, it bears repeating: this is **very** complicated material! This is
-likely the first time you're encountering any of this stuff so, if you're
-struggling with the new concepts, don't sweat it! Set aside some extra time to
-re-read and practice, and make sure you're coding along with every example we
-cover in the lessons.
-
-## Define Callback Functions
-
-If you've done any outside reading on JavaScript, you've probably come across
-the name of the pattern we just introduced: _callback functions_. When we pass a
-function into another function wherein it might be invoked, we refer to the
-passed function as a _callback_. The term derives from the fact that the
-function isn't invoked immediately — instead it's _called back_, or invoked at a
-later point. (As an example, callback functions are commonly used to respond to
-user actions; we may define a callback to execute the appropriate code *when*
-the user clicks an element on the page.)
-
-You may have noticed, but all of our callback functions so far have been
-_anonymous functions_; that is, we haven't assigned them an identifier. You're
-welcome to name your callback functions if you'd like, but generally, it just
-clutters things up if you only use the callback function in one place. And,
-anyway, we already have a way to refer to them: by the name of the parameter
-into which they're passed! For example:
+In this example we've seen previously:
 
 ```js
-function main (cb) {
-  console.log(cb());
-}
+function returnBook(book) {
+  console.log("Starting return of: ", book);
+  console.log("Checking receipt...");
+  console.log("Checking condition...");
 
-main(function () { return "After I get passed to the main() function as the only argument, I'm stored in the local 'cb' variable!"});
-// LOG: After I get passed to the main() function as the only argument, I'm stored in the local 'cb' variable!
+  return function () {
+    console.log("Refund processed!");
+  };
+}
 ```
 
-1. We passed an anonymous function, `function () { return "After I get passed...
-   }`, as the lone argument to our invocation of `main()`.
-2. `main()` stored the passed-in function in the local `cb` variable and then
-   invoked the callback function.
-3. The invoked callback returned its long string, which was `console.log()`-ed
-   out in `main()`.
+`returnBook` is a higher-order function because it _returns a function_.
 
-We know that the parameters we define for our outer function are available
-anywhere inside the function. As a result, we can pass them as arguments to the
-callback function. For example:
+While both types of higher-order functions are powerful, the type you will
+likely encounter and use the most is `cashier()`. Well, not `cashier()`
+specifically, but a function that accepts functions as arguments. They're so
+useful that a function getting passed in as an argument also has a name -
+callback function.
+
+**_NOTE_**: As we dive deeper into higher-order functions, it bears repeating:
+this is **very** complicated material! This is likely the first time you're
+encountering any of this stuff so, if you're struggling with the new concepts,
+don't sweat it! Set aside some extra time to re-read and practice, and make sure
+you're coding along with every example we cover in the lesson.
+
+## Callback Functions
+
+**When you pass in a function as an argument, that passed in function is
+considered a callback.** The term derives from the fact that the function isn't
+invoked immediately — instead it's _called back_, or invoked at a later point.
+
+Let's look at our `cashier()` example again, and bring back one of the greeting
+functions as well:
 
 ```js
-function greet (name, cb) {
-  return cb(name);
+function welcome() {
+  console.log("Welcome to Bookish Mart!");
 }
 
-greet('Ada Lovelace', function (name) { return 'Hello there, ' + name; });
-// => "Hello there, Ada Lovelace"
-
-function doMath (num1, num2, cb) {
-  return cb(num1, num2);
+function cashier(sayGreeting) {
+  sayGreeting();
 }
 
-doMath(42, 8, function (num1, num2) { return num1 * num2; });
-// => 336
+cashier(welcome); // => Welcome to Bookish Mart!
 ```
 
-In the above examples, what the `greet()` and `doMath()` functions are doing is
-pretty trivial: they're simply returning the result of calling the callback
-function. But let's consider another example. Imagine for a moment that we have
-a very expensive operation we need to execute, and that we need to do different
-things with the data it returns at different points in our program. We can use a
-callback to help us encapsulate that operation into its own function:
+As we already established, `cashier()` is considered a higher-order function. When
+we invoke it at the bottom and pass in `welcome`, `welcome` is now considered a
+callback function.
 
-``` javascript
-function somethingExpensive(cb) {
-  // do something crazy,
-  // like fetching a bajillion websites
-  // then pass their data to the callback:
-  cb(data);
+Here we're passing in a _reference_ to a declared function, but we can also
+directly pass in _anonymous functions_. Take for example:
+
+```js
+function cashier(sayGreeting) {
+  sayGreeting();
 }
+
+cashier(() => console.log("Thanks for shopping at Bookish Mart!"));
+// => Thanks for shopping at Bookish Mart!
 ```
 
-This approach allows us to separate the execution of the expensive operation from
-the functions that use the data it returns. We do this by passing whichever
-function we currently need to `somethingExpensive()` as a callback. Once the
-expensive operation is finished, we simply call `cb()`, passing the data along
-as an argument.
+Let's break this down to clarify what's going on:
+
+1. We passed an anonymous function, `() => console.log("Thanks for shopping at
+Bookish Mart!")` to `cashier()`.
+   - Confused with this single-line syntax? Recall what we learned about arrow
+     functions - they can be written in one line when there is only one
+     expression within the function body.
+2. `cashier()` stored the passed-in anonymous function, i.e. the _callback
+   function_, in the local `sayGreeting` variable.
+3. The `sayGreeting` variable was invoked inside of the `cashier()` function
+   body, which in turn invokes the stored callback function.
+4. The invoked callback runs what it was programmed to do: log a string to the
+   console.
+
+Another thing of note: the anonymous **callback function was not invoked when
+passed in as an argument**.
+
+After all, we didn't want to invoke the callback function when we passed it in.
+We only wanted it to run when told to _inside_ the higher-order function's body.
+We did so by invoking the parameter variable the callback was saved to, which
+was `sayGreeting` in this case.
+
+> **Note**: We used an anonymous arrow function in that example, but we can
+> also use the `function` keyword and get the same result:
+>
+> ```js
+> cashier(function () {
+>   console.log("Thanks for shopping at Bookish Mart!");
+> });
+> // => Thanks for shopping at Bookish Mart!
+> ```
+>
+> Either syntax works just fine! Arrows just tend to make it cleaner and easier
+> to read.
+
+## Passing Arguments to Callbacks
+
+As we just saw, callback functions should never be immediately invoked when
+passing them in. Doing so will make them run immediately, even if we never
+invoke them inside the function...
+
+```js
+function welcome() {
+  console.log("Welcome to Bookish Mart!");
+}
+
+function cashier(sayGreeting) {
+  console.log("I refuse to say a greeting!");
+}
+
+cashier(welcome());
+// => Welcome to Bookish Mart!
+// => I refuse to say a greeting!
+```
+
+... or worse - break the function you're passing it into entirely.
+
+```js
+function welcome() {
+  console.log("Welcome to Bookish Mart!");
+}
+
+function cashier(sayGreeting) {
+  sayGreeting();
+}
+
+cashier(welcome()); // => TypeError: sayGreeting is not a function
+```
+
+In this scenario, `sayGreeting` is no longer a reference to `welcome()`. It is a
+reference to the _result_ (i.e. _return_ value) of `welcome()` - which is not a
+function.
+
+So, what happens if a callback accepts arguments? The only way to pass an
+argument to a function is to invoke it. If the needed argument is available
+within the higher-order function, then there's no problem at all:
+
+```js
+function welcome(storeName) {
+  console.log("Welcome to", storeName);
+}
+
+function cashier(sayGreeting) {
+  const store = "Bookish Mart";
+  sayGreeting(store);
+}
+
+cashier(welcome);
+// => Welcome to Bookish Mart
+```
+
+We pass the callback as normal, then when invoking it via the parameter
+(`sayGreeting`) inside the higher-order function (`cashier()`), we can pass in
+the argument (`store`) there.
+
+If the needed argument is _not_ available inside, then we have a conundrum on
+our hands. As we said, the only way to pass an argument to a function is to
+invoke it - but we can't do that here. Instead, we first have to pass the
+callback's required arguments _alongside_ it to the higher-order function. Let's
+see that in action:
+
+```js
+function welcome(name) {
+  console.log("Welcome to Bookish Mart,", name);
+}
+
+function cashier(sayGreeting, name) {
+  sayGreeting(name);
+}
+
+cashier(welcome, "Alejandra");
+// => Welcome to Bookish Mart, Alejandra
+```
+
+Now, the `welcome()` function gets saved to the parameter `sayGreeting` again.
+Additionally, we've added a new parameter called `name`, which saves the second
+argument we passed in, `Alejandra`. Inside the function body, we invoke
+`sayGreeting` and pass it the `name` parameter.
+
+With the values we passed to those parameters, `sayGreeting(name)` essentially
+acts as if we called `welcome("Alejandra")`.
+
+Whether you have one, two, three, or more arguments to pass to a callback
+function, you can follow the same process. Access them from within the
+higher-order function, or add the needed parameters to the higher-order function
+and pass the arguments _alongside_ the callback.
 
 ## Conclusion
 
-In this lesson, we learned about JavaScript callback functions. If the topic
-feels a little abstract at this point, don't worry! We will learn a lot more about
-callback functions and how they can be used in upcoming lessons.
-
 ## Resources
-
-- [Programiz: JavaScript Callback Function][JIS: Callbacks]
-- [StackOverflow: Explain Callbacks in Plain English][SO: Callbacks]
-
-[JIS: Callbacks]: https://www.programiz.com/javascript/callback
-[SO: Callbacks]: http://stackoverflow.com/questions/9596276/how-to-explain-callbacks-in-plain-english-how-are-they-different-from-calling-o
-[concat]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat
