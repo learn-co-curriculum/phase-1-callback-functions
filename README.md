@@ -57,11 +57,11 @@ specifically, but a function that accepts functions as arguments. They're so
 useful that a function getting passed in as an argument also has a name -
 callback function.
 
-**_NOTE_**: As we dive deeper into higher-order functions, it bears repeating:
-this is **very** complicated material! This is likely the first time you're
-encountering any of this stuff so, if you're struggling with the new concepts,
-don't sweat it! Set aside some extra time to re-read and practice, and make sure
-you're coding along with every example we cover in the lesson.
+> **Note**: As we dive deeper into higher-order functions, it bears repeating:
+> this is **very** complicated material! This is likely the first time you're
+> encountering any of this stuff so, if you're struggling with the new concepts,
+> don't sweat it! Set aside some extra time to re-read and practice, and make
+> sure you're coding along with every example we cover in these lessons.
 
 ## Callback Functions
 
@@ -229,4 +229,39 @@ and pass the arguments _alongside_ the callback.
 
 ## Conclusion
 
+You might wonder why even use callbacks, why not just directly call the function
+within the higher-order function instead? For example:
+
+```js
+function welcome(name) {
+  console.log("Welcome to Bookish Mart,", name);
+}
+
+function cashier() {
+  welcome("Alejandra");
+}
+
+cashier(); // => Welcome to Bookish Mart, Alejandra
+```
+
+This provides the same exact output as when we used callbacks. In fact, it even
+looks a bit cleaner in this case. Well, what if we want our cashier to say a
+goodbye greeting instead? The way we currently have it written, `cashier()` can
+only ever say welcome. It is specifically reliant on `welcome()`, a function
+that is outside of itself, rather than being adaptable.
+
+Using callbacks instead makes the higher-order function more general, more
+variable. It does not have to rely on anything outside of its own scope, just
+arguments passed to it and whatever it's been programmed to do within its own
+body.
+
+Higher-order functions are powerful tools that JavaScript allows us to use, take
+advantage of them! They are not always necessary to use, of course. Still, with
+higher-order functions now under our belt, we can at least start to program
+while keeping abstraction in mind.
+
 ## Resources
+
+- [Eloquent JS: Higher-Order
+  Functions](https://eloquentjavascript.net/05_higher_order.html)
+- [JavaScript | Callbacks](https://www.geeksforgeeks.org/javascript-callbacks/)
