@@ -2,9 +2,9 @@
 
 ## Learning Goals
 
-- One
-- Two
-- Three
+- Define higher-order functions.
+- Define callback functions.
+- Identify reasons to utilize callback functions.
 
 ## Introduction
 
